@@ -58,6 +58,9 @@ if __name__ == '__main__':
         missle.rect.y += speed
         if (missle.rect.x - 20) < c and  (missle.rect.x + 20) > c and (missle.rect.y - 20) < y and (missle.rect.y + 20) > y:
             print("winner") # Показатель того, что снаряд поражен, в дальнейшем здесь будет анимация поражения снаряда
+        if y >= 715:
+            c = 5
+            y = randrange(5, 400)
         if (mirror.rect.x - 30) < c and  (mirror.rect.x + 30) > c and (mirror.rect.y - 20) < y and (mirror.rect.y + 20) > y:
             a.append(1)
         if y <= 5:
