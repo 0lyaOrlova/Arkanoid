@@ -35,9 +35,21 @@ class Missle(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect(center=(x, 40))
 
+#class AnimatedMissle(pygame.sprite.Sprite):
+#    def __init__(self, filename):
+#        super().__init__()
+#        self.images = filename
+#        self.index = 0
+# #       self.image = self.images[self.index]
+#        self.index += 1
+#        if self.index >= len(self.images):
+#            self.index = 0
+#        self.image = self.images[self.index]
+
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
 missle = Missle(randrange(40, 800), 'data/Снаряд1.png')
+#a_m = AnimatedMissle('Анимация_1')
 a = []
 
 if __name__ == '__main__':
@@ -56,14 +68,16 @@ if __name__ == '__main__':
                         mirror.rect.x = pos[0]
         screen.blit(bg, (0, 0))
         missle.rect.y += speed
-        if (missle.rect.x - 20) < abs(c) and  (missle.rect.x + 20) > abs(c) and (missle.rect.y - 20) < n and (missle.rect.y + 20) > n:
+        if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
+           # missle = a_m
             print("winner") # Показатель того, что снаряд поражен, в дальнейшем здесь будет анимация поражения снаряда
+            #missle.kill()
         if n >= 716:
             n = randrange(10, 350)
             c = 5
             pygame.draw.circle(screen, (0, 255, 0), (25, n), 5)
             pygame.draw.circle(screen, (255, 255, 255), (25, n), 2)
-        if (mirror.rect.x - 30) < abs(c) and  (mirror.rect.x + 30) > abs(c) and (mirror.rect.y - 20) < n and (mirror.rect.y + 20) > n:
+        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n:
             a.append(1)
         if n <= 5:
             a.append(2)
