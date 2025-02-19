@@ -1,5 +1,6 @@
 import pygame
 from random import randrange
+from pygame.constants import K_ESCAPE, KEYDOWN
 
 
 pygame.font.init()
@@ -12,7 +13,7 @@ width, height = 975, 721
 size = width, height
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 40
 
 
 x = 513
@@ -35,22 +36,31 @@ class Missle(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect(center=(x, 40))
 
-#class AnimatedMissle(pygame.sprite.Sprite):
-#    def __init__(self, filename):
-#        super().__init__()
-#        self.images = filename
-#        self.index = 0
-# #       self.image = self.images[self.index]
-#        self.index += 1
-#        if self.index >= len(self.images):
-#            self.index = 0
-#        self.image = self.images[self.index]
+
+class AnimatedMissle(pygame.sprite.Sprite):
+    def __init__(self, w1, h1, k, filename, position):
+        pygame.sprite.Sprite.__init__(self)
+        self.frames = []
+        self.position = position
+        self.k = k
+        self.sprite = pygame.image.load(filename).convert_alpha()
+
+        wi, hi = self.sprite.get_size()
+        self.w, self.h = wi / w1, hi / h1
+
+        row = 0
+
+
+        for j in range(int(hi / self.h)):
+            for i in range(int(wi / self.w)):
+                self.frames.append(self.sprite.subsurface(pygame.Rect(i * self.w, row, self.w, self.h)))
+            row += int(self.h)
 
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
 missle = Missle(randrange(40, 800), 'data/Снаряд1.png')
-#a_m = AnimatedMissle('Анимация_1')
 a = []
+counter = 0
 
 if __name__ == '__main__':
     running = True
@@ -59,7 +69,7 @@ if __name__ == '__main__':
     pygame.draw.circle(screen, (255, 255, 255), (1, n), 2)
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                 running = False
             elif event.type == pygame.MOUSEMOTION:
                     pressed = pygame.mouse.get_pressed()
@@ -68,10 +78,15 @@ if __name__ == '__main__':
                         mirror.rect.x = pos[0]
         screen.blit(bg, (0, 0))
         missle.rect.y += speed
-        if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
-           # missle = a_m
-            print("winner") # Показатель того, что снаряд поражен, в дальнейшем здесь будет анимация поражения снаряда
-            #missle.kill()
+        if (missle.rect.x) < abs(c) and  (missle.rect.x + 50) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 50) > n:
+            f, g = missle.rect.x, missle.rect.y
+            a_m = AnimatedMissle(7, 1, 7, 'data/Анимация1_v2.png', (f, g))
+            print("winner")
+            counter = (counter + 1)
+            if counter >= 7:
+                missle.rect.x, missle.rect.y = randrange(40, 800), 40
+                counter = 0
+            screen.blit(a_m.frames[counter], a_m.position)
         if n >= 716:
             n = randrange(10, 350)
             c = 5
