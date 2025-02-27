@@ -13,7 +13,7 @@ width, height = 975, 721
 size = width, height
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 40
+FPS = 20
 
 
 x = 513
@@ -48,8 +48,8 @@ class AnimatedMissle(pygame.sprite.Sprite):
         wi, hi = self.sprite.get_size()
         self.w, self.h = wi / w1, hi / h1
 
-        row = 0
 
+        row = 0
 
         for j in range(int(hi / self.h)):
             for i in range(int(wi / self.w)):
@@ -59,8 +59,10 @@ class AnimatedMissle(pygame.sprite.Sprite):
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
 missle = Missle(randrange(40, 800), 'data/Снаряд1.png')
+#a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', (100, 100))
 a = []
 counter = 0
+v = []
 
 if __name__ == '__main__':
     running = True
@@ -77,15 +79,21 @@ if __name__ == '__main__':
                     if pressed[0]:
                         mirror.rect.x = pos[0]
         screen.blit(bg, (0, 0))
+        missle.rect.x += speed
         missle.rect.y += speed
-        if (missle.rect.x) < abs(c) and  (missle.rect.x + 50) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 50) > n:
-            f, g = missle.rect.x, missle.rect.y
-            a_m = AnimatedMissle(7, 1, 7, 'data/Анимация1_v2.png', (f, g))
+        if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
+            g = (missle.rect.x, missle.rect.y)
+            print(g)
+            v.append(g)
+            missle.rect.x, missle.rect.y = randrange(40, 800), 40
+        if len(v) > 0:
+            a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', v[0])
             print("winner")
             counter = (counter + 1)
-            if counter >= 7:
-                missle.rect.x, missle.rect.y = randrange(40, 800), 40
+            if counter >= 14:
                 counter = 0
+                v.clear()
+        #counter = (counter + 1) % a_m.k
             screen.blit(a_m.frames[counter], a_m.position)
         if n >= 716:
             n = randrange(10, 350)
