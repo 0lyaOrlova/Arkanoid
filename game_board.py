@@ -21,7 +21,8 @@ FPS = 20
 x = 513
 n = randrange(5, 400)
 c = 5
-filename = random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
+k = 1
+filename = choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
 
 bg = pygame.image.load('data/поле.png').convert()
 
@@ -85,30 +86,29 @@ if __name__ == '__main__':
         missle.rect.x += speed
         missle.rect.y += speed
         if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
-            print(filename)
             v.clear()
             g = (missle.rect.x, missle.rect.y)
             v.append(g)
             v.append(filename)
-            filename = random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
+            filename = choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
             missle = Missle(randrange(40, 800), filename)
-            print(filename)
         if len(v) > 0:
             if v[1] == 'data/Снаряд1.png':
                 a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', v[0])
+                k += 5
             elif v[1] == 'data/Снаряд2.png':
                 a_m = AnimatedMissle(14, 1, 14, 'data/Анимация2.png', v[0])
+                k += 10
             elif v[1] == 'data/Снаряд3.png':
                 a_m = AnimatedMissle(14, 1, 14, 'data/Анимация3.png', v[0])
+                k += 15
             counter = (counter + 1)
             if counter >= 14:
                 counter = 0
-                print(v)
                 v.clear()
             screen.blit(a_m.frames[counter], a_m.position)
         if missle.rect.x == 975 or missle.rect.y == 720:
             missle.rect.x, missle.rect.y = randrange(40, 800), 40
-        #counter = (counter + 1) % a_m.k
         if n >= 716:
             n = randrange(10, 350)
             c = 5
@@ -133,6 +133,9 @@ if __name__ == '__main__':
         else:
             n += 3
             c += 3
+        if k % 31 == 0:
+            FPS += 10
+            print(k)
         pygame.draw.circle(screen, (0, 255, 0), (abs(c), n), 5)
         pygame.draw.circle(screen, (255, 255, 255), (abs(c), n), 2)
         screen.blit(mirror.image, mirror.rect)
