@@ -85,12 +85,14 @@ if __name__ == '__main__':
         missle.rect.x += speed
         missle.rect.y += speed
         if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
+            print(filename)
             v.clear()
             g = (missle.rect.x, missle.rect.y)
             v.append(g)
             v.append(filename)
-            missle = Missle(randrange(40, 800), random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png']))
-            print(v)
+            filename = random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
+            missle = Missle(randrange(40, 800), filename)
+            print(filename)
         if len(v) > 0:
             if v[1] == 'data/Снаряд1.png':
                 a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', v[0])
@@ -101,6 +103,7 @@ if __name__ == '__main__':
             counter = (counter + 1)
             if counter >= 14:
                 counter = 0
+                print(v)
                 v.clear()
             screen.blit(a_m.frames[counter], a_m.position)
         if missle.rect.x == 975 or missle.rect.y == 720:
