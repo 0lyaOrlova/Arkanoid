@@ -1,5 +1,7 @@
+import random
+
 import pygame
-from random import randrange
+from random import randrange, choice
 from pygame.constants import K_ESCAPE, KEYDOWN
 
 
@@ -19,6 +21,7 @@ FPS = 20
 x = 513
 n = randrange(5, 400)
 c = 5
+filename = random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
 
 bg = pygame.image.load('data/поле.png').convert()
 
@@ -58,7 +61,7 @@ class AnimatedMissle(pygame.sprite.Sprite):
 
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
-missle = Missle(randrange(40, 800), 'data/Снаряд1.png')
+missle = Missle(randrange(40, 800), filename)
 #a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', (100, 100))
 a = []
 counter = 0
@@ -82,19 +85,27 @@ if __name__ == '__main__':
         missle.rect.x += speed
         missle.rect.y += speed
         if (missle.rect.x) < abs(c) and  (missle.rect.x + 70) > abs(c) and (missle.rect.y) < n and (missle.rect.y + 70) > n:
+            v.clear()
             g = (missle.rect.x, missle.rect.y)
-            print(g)
             v.append(g)
-            missle.rect.x, missle.rect.y = randrange(40, 800), 40
+            v.append(filename)
+            missle = Missle(randrange(40, 800), random.choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png']))
+            print(v)
         if len(v) > 0:
-            a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', v[0])
-            print("winner")
+            if v[1] == 'data/Снаряд1.png':
+                a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', v[0])
+            elif v[1] == 'data/Снаряд2.png':
+                a_m = AnimatedMissle(14, 1, 14, 'data/Анимация2.png', v[0])
+            elif v[1] == 'data/Снаряд3.png':
+                a_m = AnimatedMissle(14, 1, 14, 'data/Анимация3.png', v[0])
             counter = (counter + 1)
             if counter >= 14:
                 counter = 0
                 v.clear()
-        #counter = (counter + 1) % a_m.k
             screen.blit(a_m.frames[counter], a_m.position)
+        if missle.rect.x == 975 or missle.rect.y == 720:
+            missle.rect.x, missle.rect.y = randrange(40, 800), 40
+        #counter = (counter + 1) % a_m.k
         if n >= 716:
             n = randrange(10, 350)
             c = 5
