@@ -1,7 +1,7 @@
-import random
-
 import pygame
 from random import randrange, choice
+import os
+import sys
 from pygame.constants import K_ESCAPE, KEYDOWN
 
 
@@ -23,10 +23,55 @@ n = randrange(5, 400)
 c = 5
 k = 1
 filename = choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
-
+pygame.display.set_caption("Заставка")
 bg = pygame.image.load('data/поле.png').convert()
 
 
+def load_image(name, colorkey=None):
+    fullname = os.path.join('data', name)
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображениями '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    if colorkey is None:
+        image = image.convert()
+        if colorkey == -1:
+            colorkey = image.get_at((0, 0))
+        image.set_colorkey(colorkey)
+    else:
+        image = image.convert_alpha()
+    return image
+
+def terminate():
+    pygame.quit()
+    sys.exit()
+
+def start_screen():
+    intro_text = ["ДОБРО ПОЖАЛОВАТЬ!",
+                  "Нажмите на экран для продолжения"]
+    fon = pygame.transform.scale(load_image('Заставка.png'), ((width, height)))
+    screen.blit(fon, (0, 0))
+    font = pygame.font.Font(None, 30)
+    text_coord = 100
+
+    for line in intro_text:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        screen.blit(string_rendered, intro_rect)
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                terminate()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                return mirror
+
+        pygame.display.flip()
 
 class Game(pygame.sprite.Sprite):
     def __init__(self, x, filename):
@@ -73,6 +118,7 @@ if __name__ == '__main__':
     screen.blit(bg, (0, 0))
     pygame.draw.circle(screen, (0, 255, 0), (1, n), 5)
     pygame.draw.circle(screen, (255, 255, 255), (1, n), 2)
+    start_screen()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
