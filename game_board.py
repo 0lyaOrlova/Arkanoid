@@ -24,6 +24,7 @@ c = 5
 k = 1
 filename = choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
 pygame.display.set_caption("Заставка")
+pygame.display.set_caption("Правилa")
 bg = pygame.image.load('data/поле.png').convert()
 
 
@@ -50,6 +51,37 @@ def start_screen():
     intro_text = ["ДОБРО ПОЖАЛОВАТЬ!",
                   "Нажмите на экран для продолжения"]
     fon = pygame.transform.scale(load_image('Заставка.png'), ((width, height)))
+    screen.blit(fon, (0, 0))
+    font = pygame.font.Font(None, 30)
+    text_coord = 100
+
+    for line in intro_text:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        screen.blit(string_rendered, intro_rect)
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                terminate()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                return pravila_screen
+
+        pygame.display.flip()
+
+def pravila_screen():
+    intro_text = ["Существует планета,  которую нужно 'защищать' от снарядов",
+                  "Для этого на орбите запускается лазер(на данный момент изображён зелёным шариком),",
+                  "его необходимо отражать с помощью зеркал(платформа, правая, левая и верхняя грани экрана).",
+                  "За поражение каждого снаряда начисляется некоторое количество очков.",
+         "Когда игрок набирает определённое число очков, скорость движения снарядов увеличивается."
+                  ]
+    fon = pygame.transform.scale(load_image('Правилa.png'), ((width, height)))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 30)
     text_coord = 100
@@ -108,6 +140,7 @@ class AnimatedMissle(pygame.sprite.Sprite):
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
 missle = Missle(randrange(40, 800), filename)
+#a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', (100, 100))
 a = []
 counter = 0
 v = []
@@ -118,6 +151,7 @@ if __name__ == '__main__':
     pygame.draw.circle(screen, (0, 255, 0), (1, n), 5)
     pygame.draw.circle(screen, (255, 255, 255), (1, n), 2)
     start_screen()
+    pravila_screen()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
