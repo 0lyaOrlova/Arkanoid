@@ -199,8 +199,6 @@ if __name__ == '__main__':
                 a.append(1)
             elif a[-1] == 2 and (a[-2] == 3):
                 a.append(1)
-                print(a)
-                print(c)
             else:
                 a.append(3)
         if n <= 10:
