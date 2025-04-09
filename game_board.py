@@ -15,7 +15,7 @@ width, height = 975, 721
 size = width, height
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 20
+FPS = 30
 
 
 x = 513
@@ -193,9 +193,13 @@ if __name__ == '__main__':
             c = 5
             pygame.draw.circle(screen, (0, 255, 0), (25, n), 5)
             pygame.draw.circle(screen, (255, 255, 255), (25, n), 2)
-        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n:
+        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n\
+                and a[-1] == 2 or a == []:
             a.append(1)
-        if n <= 5:
+        elif (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n\
+                and a[-1] == 0:
+            a.append(3)
+        if n <= 10:
             a.append(2)
         if c >= 970:
             a.append(0)
@@ -203,18 +207,30 @@ if __name__ == '__main__':
             if a[-1] == 1:
                 c += 3
                 n -= 3
-            elif a[-1] == 0:
+            elif a[-1] == 0 and a[-2] == 2:
                 c -= 3
                 n += 3
-            elif a[-1] == 2:
-                c += 3
+            elif a[-1] == 0 and a[-2] == 1:
+                c -= 3
+                n -= 3
+            elif a[-1] == 2 and a[-2] != 0:
+                if a[-2] == 3:
+                    c -= 3
+                    n += 3
+                elif a[-2] == 1:
+                    c += 3
+                    n += 3
+            elif a[-1] == 2 and a[-2] == 0:
+                c -= 3
                 n += 3
+            elif a[-1] == 3:
+                c -= 3
+                n -= 3
         else:
             n += 3
             c += 3
         if k % 31 == 0:
             FPS += 10
-            print(k)
         pygame.draw.circle(screen, (0, 255, 0), (abs(c), n), 5)
         pygame.draw.circle(screen, (255, 255, 255), (abs(c), n), 2)
         screen.blit(mirror.image, mirror.rect)
