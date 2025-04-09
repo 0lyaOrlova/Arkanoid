@@ -193,12 +193,13 @@ if __name__ == '__main__':
             c = 5
             pygame.draw.circle(screen, (0, 255, 0), (25, n), 5)
             pygame.draw.circle(screen, (255, 255, 255), (25, n), 2)
-        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n\
-                and a[-1] == 2 or a == []:
-            a.append(1)
-        elif (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n\
-                and a[-1] == 0:
-            a.append(3)
+        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n:
+            if len(a) == 0:
+                a.append(1)
+            elif a[-1] == 2 or (a[-2] == 2 and a[-1] != 0):
+                a.append(1)
+            else:
+                a.append(3)
         if n <= 10:
             a.append(2)
         if c >= 970:
