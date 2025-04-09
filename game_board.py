@@ -15,7 +15,7 @@ width, height = 975, 721
 size = width, height
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 30
+FPS = 20
 
 
 x = 513
@@ -193,11 +193,14 @@ if __name__ == '__main__':
             c = 5
             pygame.draw.circle(screen, (0, 255, 0), (25, n), 5)
             pygame.draw.circle(screen, (255, 255, 255), (25, n), 2)
-        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (mirror.rect.y + 92) > n:
+        if (mirror.rect.x) < abs(c) and (mirror.rect.x + 80) > abs(c) and (mirror.rect.y) < n and (
+                mirror.rect.y + 92) > n:
             if len(a) == 0:
                 a.append(1)
-            elif a[-1] == 2 or (a[-2] == 2 and a[-1] != 0):
+            elif a[-1] == 2 and (a[-2] == 3):
                 a.append(1)
+                print(a)
+                print(c)
             else:
                 a.append(3)
         if n <= 10:
@@ -206,7 +209,7 @@ if __name__ == '__main__':
             a.append(0)
         if len(a) > 0:
             if a[-1] == 1:
-                c += 3
+                c = abs(c) + 3
                 n -= 3
             elif a[-1] == 0 and a[-2] == 2:
                 c -= 3
