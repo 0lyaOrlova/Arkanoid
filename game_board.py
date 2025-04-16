@@ -147,7 +147,6 @@ class AnimatedMissle(pygame.sprite.Sprite):
 speed = 1
 mirror = Game(513 // 2, 'data/зеркало.png')
 missle = Missle(randrange(40, 800), filename)
-#a_m = AnimatedMissle(14, 1, 14, 'data/Анимация1.png', (100, 100))
 a = []
 counter = 0
 v = []
