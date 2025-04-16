@@ -17,6 +17,13 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 20
 
+musicname = ['Darude — Sandstorm.mp3', 'pyrokinesis — Девочка из Кони-Айленд (2016).mp3', 'pyrokinesis, МУККА — Днями-ночами .mp3']
+pygame.mixer.music.load('pyrokinesis, МУККА — Днями-ночами .mp3')
+pygame.mixer.music.load('pyrokinesis — Девочка из Кони-Айленд (2016).mp3')
+pygame.mixer.music.load('Darude — Sandstorm.mp3')
+pygame.mixer.music.play(-1)
+
+
 
 x = 513
 n = randrange(5, 400)
