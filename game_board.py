@@ -30,8 +30,7 @@ n = randrange(5, 400)
 c = 5
 k = 1
 filename = choice(['data/Снаряд1.png', 'data/Снаряд2.png', 'data/Снаряд3.png'])
-pygame.display.set_caption("Заставка")
-pygame.display.set_caption("Правилa")
+pygame.display.set_caption("laser tag in orbit")
 bg = pygame.image.load('data/поле.png').convert()
 
 
